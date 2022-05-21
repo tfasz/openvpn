@@ -1,0 +1,9 @@
+{
+  "common_name": "vpn.example.com",
+  "port": 1194,
+  "proto": "tcp4",
+  "dns_servers": [
+    "192.168.0.2",
+    "192.168.0.3"
+  ]
+}

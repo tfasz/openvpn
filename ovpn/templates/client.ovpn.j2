@@ -1,0 +1,22 @@
+client
+nobind
+dev tun
+auth SHA256
+remote-cert-tls server
+remote {{ common_name }} {{ port }} {{ proto }}
+verify-x509-name {{ common_name }} name
+tls-client
+tun-mtu 1500
+verb 3
+<ca>
+{{ ca_cert | trim }}
+</ca>
+<cert>
+{{ client_cert | trim }}
+</cert>
+<key>
+{{ client_key | trim }}
+</key>
+<tls-crypt>
+{{ tls_crypt_key | trim }}
+</tls-crypt>

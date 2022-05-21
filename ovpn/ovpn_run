@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Run the OpenVPN server normally
+#
+set -e
+
+OVPN_NATDEVICE=eth0
+OVPN_SERVER="192.168.255.0/24"
+OVPN_ROUTES=([0]="192.168.254.0/24")
+
+cd $OPENVPN
+mkdir -p /dev/net
+if [ ! -c /dev/net/tun ]; then
+    mknod /dev/net/tun c 10 200
+fi
+
+iptables -t nat -C POSTROUTING -s $OVPN_SERVER -o $OVPN_NATDEVICE -j MASQUERADE 2>/dev/null || {
+  iptables -t nat -A POSTROUTING -s $OVPN_SERVER -o $OVPN_NATDEVICE -j MASQUERADE
+}
+for i in "${OVPN_ROUTES[@]}"; do
+    iptables -t nat -C POSTROUTING -s "$i" -o $OVPN_NATDEVICE -j MASQUERADE 2>/dev/null || {
+      iptables -t nat -A POSTROUTING -s "$i" -o $OVPN_NATDEVICE -j MASQUERADE
+    }
+done
+
+ARGS=("--config" "$OPENVPN/server.conf")
+echo "Running 'openvpn ${ARGS[@]}'"
+exec openvpn ${ARGS[@]}

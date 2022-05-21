@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  openvpn:
+    container_name: openvpn
+    image: ghcr.io/tfasz/openvpn:latest
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./data:/etc/openvpn
+    ports:
+      - "1194:1194"
+      - "1194:1194/udp"

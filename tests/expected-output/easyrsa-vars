@@ -1,0 +1,5 @@
+set_var EASYRSA_ALGO ec
+set_var EASYRSA_CURVE prime256v1
+set_var EASYRSA_CERT_EXPIRE 1825
+set_var EASYRSA_CRL_DAYS 3650
+set_var EASYRSA_REQ_CN "vpn.example.com"
