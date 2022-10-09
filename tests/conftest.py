@@ -7,7 +7,7 @@ from tests import test_dir, temp_dir, rm_tree
 def cleanup(request):
     """Run cleanup logic at end of all tests"""
     def clear_temp():
-        """"Clear CRL from test directory as it changes every time we run"""
+        """"Clear temp directory"""
         rm_tree(temp_dir)
 
     def remove_crl():
