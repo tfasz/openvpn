@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Output version information
+#
+echo "********** OS Release *********"
+cat /etc/os-release
+echo "******* EasyRSA Version *******"
+easyrsa version
+echo "******* OpenVPN Version *******"
+openvpn --version

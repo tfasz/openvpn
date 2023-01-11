@@ -47,7 +47,7 @@ class PkiConfig:
         self.exec(f"/usr/sbin/openvpn --genkey secret {self.tls_crypt_key}")
 
         # For a server key with a password, manually init; this is autopilot
-        self.exec_pki(f"build-server-full {config['common_name']} nopass")
+        self.exec_pki(f"--batch build-server-full {config['common_name']} nopass")
 
         # Init CRL
         self.gen_crl()
