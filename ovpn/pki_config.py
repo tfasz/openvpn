@@ -54,7 +54,9 @@ class PkiConfig:
 
     def gen_crl(self):
         """Generate the CRL for the server"""
-        self.exec_pki("gen-crl")
+        # While the EASYRSA_VARS_FILE variable is set the CRL doesn't get set to the correct expiration without
+        # explicitly including it on the CLI. You can view the CRL details with: openssl crl -text -noout -in crl.pem
+        self.exec_pki(f"--vars={self.easyrsa_vars_file} gen-crl")
 
         # copy updated CRL from PKI dir to the VPN dir and make readable by everyone so the OpenVPN process
         # can read it
