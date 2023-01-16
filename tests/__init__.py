@@ -22,10 +22,6 @@ def get_expected_output_file(file_name):
 
 def read_expected_output(file_name):
     return read_file(get_expected_output_file(file_name))
-
-def read_temp_file(file_name):
-    return read_file(os.path.join(temp_dir, file_name))
-
 def rm_tree(delete_dir):
     if os.path.exists(delete_dir):
         shutil.rmtree(delete_dir)

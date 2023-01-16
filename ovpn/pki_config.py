@@ -9,7 +9,7 @@ class PkiConfig:
     def __init__(self, vpn_dir, pki_bin_dir):
         self.vpn_dir = vpn_dir
         self.pki_dir = os.path.join(self.vpn_dir, "pki")
-        self.easyrsa_vars_file = os.path.join(self.vpn_dir, "easyrsa-vars")
+        self.easyrsa_vars_file = os.path.join(self.vpn_dir, "vars")
         self.easyrsa_bin = os.path.join(pki_bin_dir, "easyrsa")
         self.tls_crypt_key = os.path.join(self.pki_dir, "tls-crypt.key")
 
@@ -34,7 +34,7 @@ class PkiConfig:
         """
         config = load_config(self.vpn_dir)
         # Write vars file to ensure key types are configured correctly
-        write_file(self.easyrsa_vars_file, render_template("easyrsa-vars.j2", config))
+        write_file(self.easyrsa_vars_file, render_template("vars.j2", config))
 
         # Provides a sufficient warning before erasing pre-existing files
         self.exec_pki("init-pki")
@@ -56,7 +56,7 @@ class PkiConfig:
         """Generate the CRL for the server"""
         # While the EASYRSA_VARS_FILE variable is set the CRL doesn't get set to the correct expiration without
         # explicitly including it on the CLI. You can view the CRL details with: openssl crl -text -noout -in crl.pem
-        self.exec_pki(f"--vars={self.easyrsa_vars_file} gen-crl")
+        self.exec_pki("gen-crl")
 
         # copy updated CRL from PKI dir to the VPN dir and make readable by everyone so the OpenVPN process
         # can read it
