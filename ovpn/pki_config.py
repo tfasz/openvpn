@@ -9,7 +9,7 @@ class PkiConfig:
     def __init__(self, vpn_dir, pki_bin_dir):
         self.vpn_dir = vpn_dir
         self.pki_dir = os.path.join(self.vpn_dir, "pki")
-        self.easyrsa_vars_file = os.path.join(self.vpn_dir, "vars")
+        self.easyrsa_vars_file = os.path.join(self.pki_dir, "vars")
         self.easyrsa_bin = os.path.join(pki_bin_dir, "easyrsa")
         self.tls_crypt_key = os.path.join(self.pki_dir, "tls-crypt.key")
 
@@ -34,29 +34,30 @@ class PkiConfig:
         """
         config = load_config(self.vpn_dir)
 
-        # Write vars file to ensure key types are configured correctly
-        write_file(self.easyrsa_vars_file, render_template("vars.j2", config))
-
         # Provides a sufficient warning before erasing pre-existing files
         self.exec_pki("init-pki")
 
+        # Write vars file to ensure key types are configured correctly
+        write_file(self.easyrsa_vars_file, render_template("vars.j2", config))
+
         # Generate server CA - don't set password on CA to keep it simple. Anyone with
         # access to this container will be able to generate client credentials.
-        self.exec_pki("--batch build-ca nopass")
+        # You can view the certificate details with: openssl x509 -text -noout -in ca.crt
+        self.exec_pki("build-ca nopass")
 
         # Create our secret for the TLS crypt key
         self.exec(f"/usr/sbin/openvpn --genkey secret {self.tls_crypt_key}")
 
         # For a server key with a password, manually init; this is autopilot
-        self.exec_pki(f"--batch build-server-full {config['common_name']} nopass")
+        # You can view the certificate details with: openssl x509 -text -noout -in issued/<vpn name>.crt
+        self.exec_pki(f"build-server-full {config['common_name']} nopass")
 
         # Init CRL
         self.gen_crl()
 
     def gen_crl(self):
         """Generate the CRL for the server"""
-        # While the EASYRSA_VARS_FILE variable is set the CRL doesn't get set to the correct expiration without
-        # explicitly including it on the CLI. You can view the CRL details with: openssl crl -text -noout -in crl.pem
+        # You can view the CRL details with: openssl crl -text -noout -in crl.pem
         self.exec_pki("gen-crl")
 
         # copy updated CRL from PKI dir to the VPN dir and make readable by everyone so the OpenVPN process
@@ -72,10 +73,11 @@ class PkiConfig:
     def gen_client(self, name):
         """Generate a client certificate for name"""
         self.ensure_init()
-        self.exec_pki(f"--batch build-client-full {name} nopass")
+        # You can view the certificate details with: openssl x509 -text -noout -in issued/<name>.crt
+        self.exec_pki(f"build-client-full {name} nopass")
 
     def revoke_client(self, name):
         """Revoke the client certificate for name"""
         self.ensure_init()
-        self.exec_pki(f"--batch revoke {name}")
+        self.exec_pki(f"revoke {name}")
         self.gen_crl()

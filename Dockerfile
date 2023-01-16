@@ -13,8 +13,8 @@ RUN apk add --update openvpn iptables bash easy-rsa python3 && \
 # Set our ENV vars, working directory, exposed port, and scripts
 ENV OPENVPN=/etc/openvpn
 ENV EASYRSA=/usr/share/easy-rsa \
-    EASYRSA_VARS_FILE=$OPENVPN/vars \
-    EASYRSA_PKI=$OPENVPN/pki
+    EASYRSA_PKI=$OPENVPN/pki \
+    EASYRSA_VARS_FILE=$OPENVPN/pki/vars
 WORKDIR /etc/openvpn
 EXPOSE 1194/udp
 

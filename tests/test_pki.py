@@ -14,7 +14,7 @@ def test_pki_error(server_config):
 def test_pki_config(server_config):
     config = PkiConfig(server_config.vpn_dir, PKI_BIN_DIR)
     config.init()
-    assert read_file(os.path.join(server_config.vpn_dir, "vars")) == read_expected_output("vars")
+    assert read_file(os.path.join(config.pki_dir, "vars")) == read_expected_output("vars")
     assert read_file(os.path.join(server_config.vpn_dir, "crl.pem")) == read_file(os.path.join(config.pki_dir, "crl.pem"))
 
 def test_pki_config_client(server_config):
