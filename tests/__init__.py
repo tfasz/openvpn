@@ -4,6 +4,8 @@ import os.path
 import shutil
 import sys
 
+from datetime import datetime
+
 PKI_BIN_DIR = "/usr/share/easy-rsa"
 
 test_dir = os.path.dirname(__file__)
@@ -22,6 +24,18 @@ def get_expected_output_file(file_name):
 
 def read_expected_output(file_name):
     return read_file(get_expected_output_file(file_name))
+
 def rm_tree(delete_dir):
     if os.path.exists(delete_dir):
         shutil.rmtree(delete_dir)
+
+def day_diff_now(date):
+    return day_diff(date, datetime.now())
+
+def day_diff(date1, date2):
+    diff = date1 - date2
+    return diff.days
+
+def assert_between(value, low, high):
+    assert value >= low
+    assert value <= high

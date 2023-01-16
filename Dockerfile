@@ -19,16 +19,17 @@ WORKDIR /etc/openvpn
 EXPOSE 1194/udp
 
 # Use a multi-stage build to run tests and lint in this same container.
-# You can build and tests with: docker build -t ovpn-test --target test-run .
-FROM base as test
+# You can build image with test dependencies + code: docker build -t ovpn-test --target test-base .
+# You can build and run tests with: docker build -t ovpn-test --target test .
+FROM base as test-base
 
 # Install requirements first so we don't need to do this everytime our scripts/tests change.
 ADD ./requirements-test.txt /opt/
 RUN pip3 install -r /opt/requirements-test.txt
 # Copy whole directory and run tests + lint
 ADD . /opt/ovpn-test
-FROM test as test-run
-RUN cd /opt/ovpn-test && pytest -vv --cov=ovpn/ --cov-fail-under=97 --cov-report term-missing && \
+FROM test-base as test
+RUN cd /opt/ovpn-test && pytest -vv --cov=ovpn/ --cov-fail-under=98 --cov-report term-missing && \
     pylint ovpn/*.py tests/*.py
 
 # If we pass our tests and lint create a container without the tests/lint libs + code.

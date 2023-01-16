@@ -1,7 +1,9 @@
 # pylint: disable=import-error,missing-function-docstring,missing-module-docstring
 import os.path
+from datetime import datetime
+
 import pytest
-from ovpn_util import load_config, read_file, read_x509, render_template, save_config
+from ovpn_util import load_config, read_file, read_x509, read_x509_end_date, render_template, save_config
 from tests import get_expected_output_file
 
 def test_load_config(get_sample_dir):
@@ -19,6 +21,10 @@ def test_read_x509(get_sample_dir):
 def test_read_x509_error(get_sample_dir):
     with pytest.raises(Exception):
         read_x509(os.path.join(get_sample_dir, "bad-cert.crt"))
+
+def test_read_x509_end_date(get_sample_dir):
+    end_date = read_x509_end_date(os.path.join(get_sample_dir, "vpn.example.com.crt"))
+    assert end_date == datetime(2025, 4, 19, 22, 17, 51)
 
 def test_save_config(get_temp_dir):
     data = {}
