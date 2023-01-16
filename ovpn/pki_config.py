@@ -33,6 +33,7 @@ class PkiConfig:
         and create a secret we will use for TLS encryption of our VPN control channel.
         """
         config = load_config(self.vpn_dir)
+
         # Write vars file to ensure key types are configured correctly
         write_file(self.easyrsa_vars_file, render_template("vars.j2", config))
 
