@@ -6,12 +6,12 @@ from ovpn_util import load_config, render_template, write_file, ValidationExcept
 
 class PkiConfig:
     """Manage PKI config for VPN server"""
-    def __init__(self, vpn_dir, pki_dir, pki_bin_dir):
+    def __init__(self, vpn_dir, pki_bin_dir):
         self.vpn_dir = vpn_dir
-        self.pki_dir = pki_dir
-        self.easyrsa_vars_file = f"{vpn_dir}/easyrsa-vars"
-        self.easyrsa_bin = f"{pki_bin_dir}/easyrsa"
-        self.tls_crypt_key = f"{pki_dir}/tls-crypt.key"
+        self.pki_dir = os.path.join(self.vpn_dir, "pki")
+        self.easyrsa_vars_file = os.path.join(self.vpn_dir, "easyrsa-vars")
+        self.easyrsa_bin = os.path.join(pki_bin_dir, "easyrsa")
+        self.tls_crypt_key = os.path.join(self.pki_dir, "tls-crypt.key")
 
     def exec(self, cmd):
         """Execute command with proper easyrsa environment variables set."""

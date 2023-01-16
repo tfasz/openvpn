@@ -2,42 +2,33 @@
 import os.path
 import pytest
 from ovpn_util import load_config, read_file, read_x509, render_template, save_config
-from tests import test_dir, get_expected_output_file
+from tests import get_expected_output_file
 
-def test_load_config():
-    config = load_config(test_dir, "sample-config.json")
+def test_load_config(get_sample_dir):
+    config = load_config(get_sample_dir, "config.json")
     assert config["common_name"] == "vpn.example.com"
-    assert config["dns_servers"][0] == "192.168.0.2"
+    assert config["dns_servers"][0] == "1.1.1.1"
 
 def test_read_file():
-    assert read_file(get_expected_output_file("test.txt")) == "FOO"
+    assert read_file(get_expected_output_file("foo.txt")) == "FOO"
 
-def test_read_x509():
-    file_cert = read_x509(os.path.join(test_dir,"test-pki/issued/test.crt"))
+def test_read_x509(get_sample_dir):
+    file_cert = read_x509(os.path.join(get_sample_dir, "vpn.example.com.crt"))
     assert file_cert == TEST_CERT
 
-def test_read_x509_error():
+def test_read_x509_error(get_sample_dir):
     with pytest.raises(Exception):
-        read_x509(os.path.join(test_dir,"test-pki/issued/bad-cert.crt"))
+        read_x509(os.path.join(get_sample_dir, "bad-cert.crt"))
 
-def test_save_config():
-    config_file_name = "temp/config.json"
+def test_save_config(get_temp_dir):
     data = {}
     data["foo"] = "bar"
-    save_config(data, test_dir, config_file_name)
-    config = load_config(test_dir, config_file_name)
+    save_config(data, get_temp_dir, "config.json")
+    config = load_config(get_temp_dir, "config.json")
     assert config == data
 
-def test_write_json():
-    config_file_name = "temp/config.json"
-    data = {}
-    data["foo"] = "bar"
-    save_config(data, test_dir, config_file_name)
-    config = load_config(test_dir, config_file_name)
-    assert config == data
-
-def test_render_template():
-    data = load_config(test_dir, "config.json")
+def test_render_template(get_sample_dir):
+    data = load_config(get_sample_dir, "config.json")
     data["client_key"] = "foo-key"
     data["client_cert"] = "foo-cert"
     data["ca_cert"] = "foo-ca-cert"
@@ -46,20 +37,25 @@ def test_render_template():
     assert output == CLIENT_CONF
 
 TEST_CERT="""-----BEGIN CERTIFICATE-----
-MIICgjCCAWqgAwIBAgIRAJmMFpXknQRwoyXc7wjcFd0wDQYJKoZIhvcNAQELBQAw
-EzERMA8GA1UEAwwIQ2hhbmdlTWUwHhcNMjIwNjAxMDEzOTAzWhcNMjcwNTMxMDEz
-OTAzWjAPMQ0wCwYDVQQDDAR0ZXN0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE
-0mPksVQhTEGJgDLZrEgPXBHId56idPdYchonyFc7g2bqL+DUCUYpIGAZAq3FQ4tB
-btU6MZaXwwWthSXCQJazD6OBnzCBnDAJBgNVHRMEAjAAMB0GA1UdDgQWBBT+7PzR
-bopkzrR9QepXubrV2lNKATBOBgNVHSMERzBFgBQ7clpBhsAGsLHAOen0YIEhYb4z
-a6EXpBUwEzERMA8GA1UEAwwIQ2hhbmdlTWWCFDHE0iDdG+hrx4XeLAw+MtErEBcD
-MBMGA1UdJQQMMAoGCCsGAQUFBwMCMAsGA1UdDwQEAwIHgDANBgkqhkiG9w0BAQsF
-AAOCAQEA6uHgTZyXt9SpFuCqW93BG1G2jZFnGZyzCkA+J70BjRlwIwB6shOEYrpC
-Efe9W1T2qAbRadEtlaQyFDYRryW3sX0ggzOyo4We0carMqoFdmNRKYj+EUKJ0snG
-IZs4okmUp7jRkK8iWGYKFlh84oJkanf3gPnmAa36t+AHZIVqdkKzaIiO99bxblRa
-HV4Peau6to8iyaB5piuW/4QXCrniikv9U8n50/G7AChuSIlEBMpi2IEXOxjq4BDK
-Rga6gKHATk3SAQXLUurqF3pzKgDCNPO5nYQXr0LHZWamFDUSSUu2BpAdXZ0ir56w
-/Kt8IuRmKLscG6/56xo7EgZeHdxgrw==
+MIIDejCCAmKgAwIBAgIRAJkR2Pi5GXpWvq9Hpv+VZLIwDQYJKoZIhvcNAQELBQAw
+FjEUMBIGA1UEAwwLRWFzeS1SU0EgQ0EwHhcNMjMwMTE1MjIxNzUxWhcNMjUwNDE5
+MjIxNzUxWjAaMRgwFgYDVQQDDA92cG4uZXhhbXBsZS5jb20wggEiMA0GCSqGSIb3
+DQEBAQUAA4IBDwAwggEKAoIBAQC0J9xBeofEtQ7zdpDtc4XdpzaFeATjI4keP7sP
+tZAq1i76lXC7RyjEUSpQ/es4FuGMdlh0EHQONMbW1mREhV+i8hd24HtUacJbYNg+
+jnPsOCqzI/3jTXcD7YJmVRUduCB8pSMGr5Gz/6JPSOsK18JWMvu7Z3J4G30u8+Wi
+34OSY1dw5KSkjbwX9AeJ2h3FtrmL1LIJ2OB/JZE3a3uEod9d78me/hTeBaubtAWO
++1a4TjQ2R3s+EY3/3olKbYXQMJzPmmaCrt+52/vYLgeb3zspOVLWPdcgpYXxilfO
+/wj2m/Xs4GWiG71L4myq4BEokAXbG4OqyeWDrCKnFtZgZo9nAgMBAAGjgb4wgbsw
+CQYDVR0TBAIwADAdBgNVHQ4EFgQUYpD8tWaMFnBE/uvhrcTj3mvG2WowUQYDVR0j
+BEowSIAUvAyp2FlB7fPYvp7yDWnrV+F/6WehGqQYMBYxFDASBgNVBAMMC0Vhc3kt
+UlNBIENBghQ2PUlq2kqvZ1418AMQ2XzZKsyDsjATBgNVHSUEDDAKBggrBgEFBQcD
+ATALBgNVHQ8EBAMCBaAwGgYDVR0RBBMwEYIPdnBuLmV4YW1wbGUuY29tMA0GCSqG
+SIb3DQEBCwUAA4IBAQBr+B9bkKFjfm/OTZNtl2RqBcIlbpGLRh+77BtfnxKtoJdP
+9dvpndsnMui1aR0SVgOXMlwEwxrrOMv3+GPdq3BQ5gATSOWBJo1IhgF+ZLCSpA9d
+P1PCqtfLQOTxLYwnYFBFSRdQH0ttbmiNAOAOFNGn9sGPNtBdLgTbu8mJoPByK2if
+yLaxfzk7QjiOXa5fFEwVb7RygCex4r12RTB4q/VZ8X9eoyDCSYI8rZG5kzigLQLS
+GD8h5uKXKeq5sW1M7Bn5qtpADdZhzo3B9OhbqpL/jTucZ3bOREMvmcEqbaCNRf0I
+NSBCu7amPJrHrlXxHGnKsHGn6A9HdSuPeaUBMTSb
 -----END CERTIFICATE-----
 """
 
@@ -68,7 +64,7 @@ nobind
 dev tun
 auth SHA256
 remote-cert-tls server
-remote vpn.example.com 1194 tcp4
+remote vpn.example.com 1194 udp4
 verify-x509-name vpn.example.com name
 tls-client
 tun-mtu 1500

@@ -5,15 +5,14 @@ from pki_config import PkiConfig
 
 class ClientConfig:
     """Load config and generate client ovpn file contents"""
-    def __init__(self, vpn_dir, pki_dir, pki_bin_dir):
+    def __init__(self, vpn_dir, pki_bin_dir):
         self.vpn_dir = vpn_dir
-        self.pki_dir = pki_dir
         self.vpn_config = load_config(vpn_dir)
-        self.pki_config = PkiConfig(vpn_dir, pki_dir, pki_bin_dir)
+        self.pki_config = PkiConfig(vpn_dir, pki_bin_dir)
 
     def get_client_key_file(self, name):
         """Get the path to the client key file."""
-        client_key_file = f"{self.pki_dir}/private/{name}.key"
+        client_key_file = f"{self.pki_config.pki_dir}/private/{name}.key"
         return client_key_file
 
     def generate(self, client_key_file, name):
@@ -29,9 +28,9 @@ class ClientConfig:
         # Now that we have a client created, generate the OVPN config file
         data = self.vpn_config
         data["client_key"] = read_file(client_key_file)
-        data["client_cert"] = read_x509(f"{self.pki_dir}/issued/{name}.crt")
-        data["ca_cert"] = read_file(f"{self.pki_dir}/ca.crt")
-        data["tls_crypt_key"] = read_file(f"{self.pki_dir}/tls-crypt.key")
+        data["client_cert"] = read_x509(f"{self.pki_config.pki_dir}/issued/{name}.crt")
+        data["ca_cert"] = read_file(f"{self.pki_config.pki_dir}/ca.crt")
+        data["tls_crypt_key"] = read_file(f"{self.pki_config.pki_dir}/tls-crypt.key")
         return data
 
     def revoke(self, name):

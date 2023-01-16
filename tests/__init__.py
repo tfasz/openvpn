@@ -1,4 +1,5 @@
 # pylint: disable=import-error,invalid-name,missing-function-docstring,missing-module-docstring,wrong-import-position
+import os
 import os.path
 import shutil
 import sys
@@ -9,9 +10,9 @@ test_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(test_dir, "../ovpn"))
 from ovpn_util import read_file
 
+sample_dir = os.path.join(test_dir, "sample-input")
 temp_dir = os.path.join(test_dir, "temp")
-# Some tests use a static PKI bin directory which is checked into git
-static_pki_dir = os.path.join(test_dir, "test-pki")
+
 # Some tests generate a new PKI in the temp dir on each run.
 temp_pki_dir = os.path.join(test_dir, "temp/pki")
 

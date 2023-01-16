@@ -28,7 +28,7 @@ RUN pip3 install -r /opt/requirements-test.txt
 # Copy whole directory and run tests + lint
 ADD . /opt/ovpn-test
 FROM test as test-run
-RUN cd /opt/ovpn-test && pytest -vv --cov=ovpn/ --cov-fail-under=97 && \
+RUN cd /opt/ovpn-test && pytest -vv --cov=ovpn/ --cov-fail-under=97 --cov-report term-missing && \
     pylint ovpn/*.py tests/*.py
 
 # If we pass our tests and lint create a container without the tests/lint libs + code.

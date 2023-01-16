@@ -8,12 +8,11 @@ from ovpn_util import ValidationException
 
 @click.command()
 @click.option("-D", "--vpndir", envvar='OPENVPN', help="OpenVPN config directory")
-@click.option("-p", "--pkidir", envvar='EASYRSA_PKI', help="PKI config directory")
 @click.option("-b", "--bindir", envvar='EASYRSA', help="PKI binary directory")
-def gen_pki(vpndir, pkidir, bindir):
+def gen_pki(vpndir, bindir):
     """Generate VPN PKI"""
     try:
-        pki_config = PkiConfig(vpndir, pkidir, bindir)
+        pki_config = PkiConfig(vpndir, bindir)
         pki_config.init()
     except ValidationException as ex:
         print(ex)

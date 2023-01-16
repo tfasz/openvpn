@@ -3,24 +3,24 @@ import os.path
 import pytest
 from pki_config import PkiConfig
 from ovpn_util import read_file
-from tests import PKI_BIN_DIR, temp_pki_dir, test_dir, read_expected_output, rm_tree
+from tests import PKI_BIN_DIR, read_expected_output, read_temp_file
 
-def test_pki_error():
-    rm_tree(temp_pki_dir)
-    config = PkiConfig(test_dir, temp_pki_dir, PKI_BIN_DIR)
+def test_pki_error(server_config):
+    config = PkiConfig(server_config.vpn_dir, PKI_BIN_DIR)
+    config.pki_dir = "/tmp/invalid-dir"
     with pytest.raises(Exception):
         config.exec_pki("invalid-argument")
 
-def test_pki_config():
-    rm_tree(temp_pki_dir)
-    config = PkiConfig(test_dir, temp_pki_dir, PKI_BIN_DIR)
+def test_pki_config(server_config):
+    config = PkiConfig(server_config.vpn_dir, PKI_BIN_DIR)
     config.init()
-    assert read_file(os.path.join(test_dir, "easyrsa-vars")) == read_expected_output("easyrsa-vars")
-    assert read_file(os.path.join(test_dir, "crl.pem")) == read_file(os.path.join(temp_pki_dir, "crl.pem"))
+    assert read_temp_file("easyrsa-vars") == read_expected_output("easyrsa-vars")
+    assert read_temp_file("crl.pem") == read_file(os.path.join(config.pki_dir, "crl.pem"))
 
-def test_pki_config_client():
+def test_pki_config_client(server_config):
     """Verify we can generate a client config."""
-    config = PkiConfig(test_dir, temp_pki_dir, PKI_BIN_DIR)
+    config = PkiConfig(server_config.vpn_dir, PKI_BIN_DIR)
+    config.init()
     config.gen_client("test")
-    assert os.path.exists(os.path.join(temp_pki_dir, "issued/test.crt"))
-    assert os.path.exists(os.path.join(temp_pki_dir, "private/test.key"))
+    assert os.path.exists(os.path.join(config.pki_dir, "issued/test.crt"))
+    assert os.path.exists(os.path.join(config.pki_dir, "private/test.key"))

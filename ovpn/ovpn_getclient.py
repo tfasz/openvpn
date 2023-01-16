@@ -9,12 +9,11 @@ from ovpn_util import render_template, ValidationException
 @click.command()
 @click.argument("name")
 @click.option("-D", "--vpndir", envvar='OPENVPN', help="OpenVPN config directory")
-@click.option("-p", "--pkidir", envvar='EASYRSA_PKI', help="PKI config directory")
 @click.option("-b", "--bindir", envvar='EASYRSA', help="PKI binary directory")
-def get_client(name, vpndir, pkidir, bindir):
+def get_client(name, vpndir, bindir):
     """Get the ovpn config file for a user."""
     try:
-        client_config = ClientConfig(vpndir, pkidir, bindir)
+        client_config = ClientConfig(vpndir, bindir)
         print(render_template("client.ovpn.j2", client_config.get(name)))
     except ValidationException as ex:
         print(ex)
