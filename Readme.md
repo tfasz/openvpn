@@ -1,7 +1,7 @@
 
 # OpenVPN Docker Container
 
-This project was inspired by https://github.com/kylemanna/docker-openvpn but intends to provide regular updates. 
+This project was inspired by https://github.com/kylemanna/docker-openvpn but intends to provide regular updates.
 As of October 2022, this project's image was running a two year old version of OpenVPN.
 ```
 docker run -it --rm=true --pull=always kylemanna/openvpn openvpn --version
@@ -53,7 +53,7 @@ You can view server configuration options by running:
 #### Examples
 
 * listen on UDP port 1194 for the host `vpn.example.com` with DNS 8.8.8.8:
- 
+
        `docker-compose run --rm openvpn ovpn_genconfig -d 8.8.8.8 vpn.example.com`
 
 * listen on TCP port 1194 for the host `vpn.example.com` with DNS 8.8.8.8 and 8.8.4.4:
@@ -63,7 +63,7 @@ You can view server configuration options by running:
 * listen on TCP port 443 for the host `vpn.example.com` with DNS 192.168.0.2:
 
       docker-compose run --rm openvpn ovpn_genconfig -t -p 443 -d 192.168.0.2 vpn.example.com
- 
+
 * add notification to a Slack webhook for logging client connect/disconnect events (see below for more details)
 
       docker-compose run --rm openvpn ovpn_genconfig ... -s https://hooks.slack.com/...
@@ -90,12 +90,12 @@ You can revoke a client certificate by running:
 
 You can configure OpenVPN to call a script on client connect/disconnect. An example of a script which posts
 notifications to Slack is included. You will first need to set up a Slack Webhook integration following [their
-documentation](https://slack.com/help/articles/115005265063-Incoming-webhooks-for-Slack) 
+documentation](https://slack.com/help/articles/115005265063-Incoming-webhooks-for-Slack)
 and then include the Webhook URL when configuring the server.
 
 ## Backup Data Directory
 
-Your PKI and configuration files will be written to the `data` directory. You should securely backup this folder  
+Your PKI and configuration files will be written to the `data` directory. You should securely backup this folder
 to ensure it is not lost in the case of a hard drive failure.
 
 # Build and Release Process
@@ -108,7 +108,13 @@ image, run tests and linting, and create a container image with:
 
        docker build -t openvpn .
 
-## Releases 
+## Check Latest Versions
+
+To check and see if there are version updates available. The `versions.txt` file will be updated if there are any available.
+
+       docker pull alpine:latest && docker build --no-cache -t openvpn . && docker run -it ovpn ovpn_version > versions.txt
+
+## Releases
 
 Releases are tagged with the current year, month, and an incrementing release number.
 
