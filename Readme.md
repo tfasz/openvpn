@@ -48,13 +48,13 @@ This guide will show you how to use docker-compose to configure and run your Ope
 
 You can view server configuration options by running:
 
-       docker-compose run --rm openvpn ovpn_genconfig --help
+    docker-compose run --rm openvpn ovpn_genconfig --help
 
 #### Examples
 
 * listen on UDP port 1194 for the host `vpn.example.com` with DNS 8.8.8.8:
 
-       `docker-compose run --rm openvpn ovpn_genconfig -d 8.8.8.8 vpn.example.com`
+      docker-compose run --rm openvpn ovpn_genconfig -d 8.8.8.8 vpn.example.com
 
 * listen on TCP port 1194 for the host `vpn.example.com` with DNS 8.8.8.8 and 8.8.4.4:
 
@@ -74,7 +74,7 @@ Once your server is configurd you can generate one or more client configurations
 
 1. Create your client and save the client configuration with:
 
-       docker-compose run --rm openvpn ovpn_getclient [CLIENT-NAME] > client.ovpn
+    docker-compose run --rm openvpn ovpn_getclient [CLIENT-NAME] > client.ovpn
 
 This will create the client certificate if it does not yet exist and then output the config file
 which can be used by the client to setup the VPN config. If the client already exists it will just
@@ -84,7 +84,7 @@ output the config file.
 
 You can revoke a client certificate by running:
 
-       docker-compose run --rm openvpn ovpn_revokeclient [CLIENT-NAME]
+    docker-compose run --rm openvpn ovpn_revokeclient [CLIENT-NAME]
 
 ## Slack Notifications
 
@@ -106,13 +106,13 @@ The [Dockerfile](Dockerfile) is a multi-stage build which will create a base con
 the tests and linting, and then create a final container with the config. This allows you to build the
 image, run tests and linting, and create a container image with:
 
-       docker build -t openvpn .
+    docker build -t openvpn .
 
-## Check Latest Versions
+## Check for Version Updates
 
-To check and see if there are version updates available. The `versions.txt` file will be updated if there are any available.
+To check for the latest released versions, run the following and see if the `versions.txt` file changes.
 
-       docker pull alpine:latest && docker build --no-cache -t openvpn . && docker run -it ovpn ovpn_version > versions.txt
+    docker pull alpine:latest && docker build --no-cache -t openvpn . && docker run -it ovpn ovpn_version > versions.txt
 
 ## Releases
 
