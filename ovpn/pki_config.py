@@ -20,7 +20,7 @@ class PkiConfig:
         with Popen(args, env=env, stdout=PIPE,  stderr=PIPE) as proc:
             proc.communicate()
             if proc.returncode > 0:
-                raise Exception(f"Command \"{cmd}\" failed with return code #{proc.returncode}.")
+                raise RuntimeError(f"Command \"{cmd}\" failed with return code #{proc.returncode}.")
 
     def exec_pki(self, cmd):
         """Execute easyrsa command with proper environment variables set"""
