@@ -1,15 +1,25 @@
 
 # OpenVPN Docker Container
 
+An OpenVPN server in a Docker container with regular updates and secure defaults.
+
+## Links
+
+    GitHub Container Registry @ ghcr.io/tfasz/openvpn:latest
+
+## Regular Updates
+
 This project was inspired by https://github.com/kylemanna/docker-openvpn but intends to provide regular updates.
-As of October 2022, this project's image was running a two year old version of OpenVPN.
+As of May 2023, this project's image was running a three year old version of OpenVPN.
 ```
 docker run -it --rm=true --pull=always kylemanna/openvpn openvpn --version
 ...
 OpenVPN 2.4.9 x86_64-alpine-linux-musl [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [MH/PKTINFO] [AEAD] built on Apr 20 2020
-library versions: OpenSSL 1.1.1g  21 Apr 2020, LZO 2.1
+library versions: OpenSSL 1.1.1g  21 Apr 2020, LZO 2.10
 ...
 ```
+
+## Secure Defaults
 
 This project also simplifies and provides secure by default OpenVPN configuration. This takes input from
 some other projects and blog posts including:
