@@ -112,7 +112,7 @@ image, run tests and linting, and create a container image with:
 
 To check for the latest released versions, run the following and see if the `versions.txt` file changes.
 
-    docker pull alpine:latest && docker build --no-cache -t openvpn . && docker run -it ovpn ovpn_version > versions.txt
+    docker pull alpine:latest && docker build --no-cache -t tfasz/ovpn . && docker run -it --rm=true tfasz/ovpn ovpn_version > versions.txt
 
 ## Releases
 
