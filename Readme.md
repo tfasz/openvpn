@@ -1,7 +1,10 @@
 
 # OpenVPN Docker Container
 
-An OpenVPN server in a Docker container with regular updates and secure defaults.
+An OpenVPN server in a Docker container with regular updates and secure defaults. 
+
+While [Wireguard](https://www.wireguard.com/) has become a great replacement, there are still a number of networks which 
+block its use while OpenVPN on TCP/443 works fine. 
 
 ## Links
 
