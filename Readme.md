@@ -1,10 +1,10 @@
 
 # OpenVPN Docker Container
 
-An OpenVPN server in a Docker container with regular updates and secure defaults. 
+An OpenVPN server in a Docker container with regular updates and secure defaults.
 
-While [Wireguard](https://www.wireguard.com/) has become a great replacement, there are still a number of networks which 
-block its use while OpenVPN on TCP/443 works fine. 
+While [Wireguard](https://www.wireguard.com/) has become a great replacement, there are still a number of networks which
+block its use while OpenVPN on TCP/443 works fine.
 
 ## Links
 
@@ -83,11 +83,11 @@ You can view server configuration options by running:
 
 ## Generate Client Config
 
-Once your server is configurd you can generate one or more client configurations.
+Once your server is configured you can generate one or more client configurations.
 
 1. Create your client and save the client configuration with:
 
-    docker-compose run --rm openvpn ovpn_getclient [CLIENT-NAME] > client.ovpn
+       docker-compose run --rm openvpn ovpn_getclient [CLIENT-NAME] > client.ovpn
 
 This will create the client certificate if it does not yet exist and then output the config file
 which can be used by the client to setup the VPN config. If the client already exists it will just
@@ -97,7 +97,7 @@ output the config file.
 
 You can revoke a client certificate by running:
 
-    docker-compose run --rm openvpn ovpn_revokeclient [CLIENT-NAME]
+      docker-compose run --rm openvpn ovpn_revokeclient [CLIENT-NAME]
 
 ## Slack Notifications
 
@@ -119,13 +119,13 @@ The [Dockerfile](Dockerfile) is a multi-stage build which will create a base con
 the tests and linting, and then create a final container with the config. This allows you to build the
 image, run tests and linting, and create a container image with:
 
-    docker build -t openvpn .
+      docker build -t openvpn .
 
 ## Check for Version Updates
 
 To check for the latest released versions, run the following and see if the `versions.txt` file changes.
 
-    docker pull alpine:latest && docker build --no-cache -t tfasz/ovpn . && docker run -it --rm=true tfasz/ovpn ovpn_version > versions.txt
+      docker pull alpine:latest && docker build --no-cache -t tfasz/ovpn . && docker run -it --rm=true tfasz/ovpn ovpn_version > versions.txt
 
 ## Releases
 
