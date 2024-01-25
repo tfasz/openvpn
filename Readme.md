@@ -119,13 +119,15 @@ The [Dockerfile](Dockerfile) is a multi-stage build which will create a base con
 the tests and linting, and then create a final container with the config. This allows you to build the
 image, run tests and linting, and create a container image with:
 
-      docker build -t openvpn .
+      docker build -t tfasz/ovpn .
 
 ## Check for Version Updates
 
 To check for the latest released versions, run the following and see if the `versions.txt` file changes.
 
-      docker pull alpine:latest && docker build --no-cache -t tfasz/ovpn . && docker run -it --rm=true tfasz/ovpn ovpn_version > versions.txt
+      docker pull alpine:latest && \
+        docker build --no-cache -t tfasz/ovpn . && \
+        docker run -it --rm=true tfasz/ovpn bash -c "ovpn_genconfig vpn.example.com;ovpn_initpki;ovpn_version" > versions.txt
 
 ## Releases
 
