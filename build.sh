@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t tfasz/openvpn .
+docker build -t tfasz/ovpn .
