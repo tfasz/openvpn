@@ -5,7 +5,7 @@ LABEL maintainer="tfasz"
 # Setup /opt/ovpn folder for all of our config scripts. We will later symlink shortcuts to this location.
 ADD ./requirements.txt /opt/
 RUN apk add --update openvpn iptables bash easy-rsa python3 && \
-    rm /usr/lib/python3.11/EXTERNALLY-MANAGED && \
+    rm /usr/lib/python3.12/EXTERNALLY-MANAGED && \
     python3 -m ensurepip && pip3 install --no-cache --upgrade pip setuptools && \
     pip3 install -r /opt/requirements.txt && \
     ln -s /usr/share/easy-rsa/easyrsa /usr/local/bin && \
