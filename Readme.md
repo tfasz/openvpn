@@ -13,7 +13,7 @@ block its use while OpenVPN on TCP/443 works fine.
 ## Regular Updates
 
 This project was inspired by https://github.com/kylemanna/docker-openvpn but intends to provide regular updates.
-As of May 2023, this project's image was running a three year old version of OpenVPN.
+As of 2025, the other project is running an OpenVPN version from 2020. You can confirm with:
 ```
 docker run -it --rm=true --pull=always kylemanna/openvpn openvpn --version
 ...
