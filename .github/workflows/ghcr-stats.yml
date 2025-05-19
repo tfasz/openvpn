@@ -1,0 +1,26 @@
+name: GHCR Stats
+
+on:
+    workflow_dispatch: # to debug via triggering the workflow manually.
+    schedule:
+        - cron: '0 0 * * *' # run job daily
+
+jobs:
+    ghcr-stats:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            # generate the stats file.
+            - uses: actionstore/ghcr-stats@v1
+              with:
+                  owner: tfasz # repository owner, required.
+                  repo: openvpn # repository name, required.
+                  name: openvpn # package name, required.
+                  path: ghcr-stats.json
+
+            # commit the stats file.
+            - uses: EndBug/add-and-commit@v9
+              with:
+                  add: ghcr-stats.json
+                  message: 'update GHCR stats [skip ci]'
