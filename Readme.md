@@ -1,8 +1,9 @@
-[![Build Status](https://github.com/tfasz/openvpn/actions/workflows/build-test-image.yml/badge.svg?branch=main)](https://github.com/tfasz/openvpn/actions/workflows/build-test-image.yml)
-![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tfasz/openvpn/refs/heads/main/ghcr-stats.json&query=downloads_compact&label=ghcr+pulls&style=flat-square)
-![GHCR Pulls Monthly](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tfasz/openvpn/refs/heads/main/ghcr-stats.json&query=downloads_month_compact&label=ghcr+pulls&suffix=/month&style=flat-square)
-
 # OpenVPN Docker Container
+
+![Build Status](https://github.com/tfasz/openvpn/actions/workflows/build-test-image.yml/badge.svg?branch=main)
+![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tfasz/openvpn/refs/heads/main/ghcr-stats.json&query=downloads_compact&label=ghcr+pulls)
+![GHCR Pulls Monthly](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tfasz/openvpn/refs/heads/main/ghcr-stats.json&query=downloads_month_compact&label=ghcr+pulls&suffix=/month)
+
 
 An OpenVPN server in a Docker container with regular updates and secure defaults.
 
