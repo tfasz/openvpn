@@ -33,7 +33,8 @@ def test_revoke_client_config(pki_config):
     # Create client
     client = ClientConfig(pki_config.vpn_dir, PKI_BIN_DIR)
     client.get("test")
-    assert os.path.exists(os.path.join(pki_config.pki_dir, "private/test.key"))
-    # Revoke client
+    assert os.path.exists(os.path.join(pki_config.pki_dir, "issued/test.crt"))
+    # Revoke client and confirm the issued cert is removed. Note that as of
+    # EasyRSA 3.2.3 the client key does remain in "private/test.key".
     client.revoke("test")
-    assert not os.path.exists(os.path.join(pki_config.pki_dir, "private/test.key"))
+    assert not os.path.exists(os.path.join(pki_config.pki_dir, "issued/test.crt"))
