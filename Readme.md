@@ -1,8 +1,8 @@
 # OpenVPN Docker Container
 
-![Build Status](https://github.com/tfasz/openvpn/actions/workflows/build-test-image.yml/badge.svg?branch=main)
-![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tfasz/openvpn/refs/heads/main/ghcr-stats.json&query=downloads_compact&label=ghcr+pulls)
-![GHCR Pulls Monthly](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tfasz/openvpn/refs/heads/main/ghcr-stats.json&query=downloads_month_compact&label=ghcr+pulls&suffix=/month)
+![Build Status](https://img.shields.io/github/actions/workflow/status/tfasz/openvpn/build-test-image.yml?branch=main&label=Build%20Status)
+![Latest Release](https://img.shields.io/github/v/release/tfasz/openvpn?label=Latest+Release)
+![GHCR Total Pulls](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/tfasz/openvpn/refs/heads/main/ghcr-stats.json&query=downloads_compact&label=GHCR+Total+Pulls)
 
 
 An OpenVPN server in a Docker container with regular updates and secure defaults.
