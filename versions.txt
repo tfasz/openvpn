@@ -13,7 +13,7 @@ SSL Lib:     OpenSSL 3.5.4 30 Sep 2025 (Library: OpenSSL 3.5.4 30 Sep 2025)
 Git Commit:  ~GITHEAD~
 Source Repo: https://github.com/OpenVPN/easy-rsa
 ******* OpenVPN Version *******
-OpenVPN 2.6.14 x86_64-alpine-linux-musl [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [MH/PKTINFO] [AEAD]
+OpenVPN 2.6.16 x86_64-alpine-linux-musl [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [MH/PKTINFO] [AEAD]
 library versions: OpenSSL 3.5.4 30 Sep 2025, LZO 2.10
 Originally developed by James Yonan
 Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
