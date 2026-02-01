@@ -127,15 +127,17 @@ image, run tests and linting, and create a container image with:
 
 ## Check for Version Updates
 
-To check for the latest released versions, run the following and see if the `versions.txt` file changes.
+To check for the latest released versions, run the following and see if the `versions.txt` file changes. This
+will update the local `versions.txt` file with the current versions so they can be committed to the repository
+as versions change. We also merge this version info into the release notes when releases are created.
 
-     ./check-for-updates.sh 
+     ./check-for-updates.sh
 
 ## Releases
 
 Releases are tagged with the current year, month, and an incrementing release number.
 
 1. Tag release on `main` branch: `git tag <YYYY-MM-NUM> && git push --tags`
-2. Create release via GitHub UI from tag.
+2. This will trigger a release to be generated which will then trigger images to build to be created.
 
-This will build and publish a Docker container tagged with that version: `docker pull ghcr.io/tfasz/openvpn:TAG`
+This will build and publish a Docker container tagged with that version: `docker pull ghcr.io/tfasz/openvpn:<TAG>`

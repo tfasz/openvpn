@@ -1,0 +1,48 @@
+# This workflow will generate a release when a tag of the correct format is pushed
+name: Release
+on:
+    push:
+        tags:
+            # Pattern: YYYY-MM-NUM 4 digits, hyphen, 2 digits, hyphen, 1 digit
+            - "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9]"
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0 # Required: Fetch all history (not just the top commit)
+                  fetch-tags: true # Required: Explicitly tell git to fetch tags
+
+            - name: Get git info
+              id: git_info
+              run: |
+                  echo "COMMIT_MSG=$(git log -1 --pretty=format:"%s")" >> $GITHUB_ENV
+                  echo "PREVIOUS_TAG=$(git tag --sort=-v:refname | head -n 2 | tail -n 1)" >> $GITHUB_ENV
+
+            - name: Get version info
+              run: |
+                  {
+                    echo 'VERSION_CONTENT<<EOF'
+                    cat versions.txt
+                    echo EOF
+                  } >> $GITHUB_ENV
+            - name: Build Release Notes
+              id: build_notes
+              env:
+                  # Map the variables that envsubst will look for
+                  REPO: ${{ github.repository }}
+                  CURRENT_TAG: ${{ github.ref_name }}
+                  CUSTOM_INTRO_VAR: ${{ vars.RELEASE_INTRO }}
+                  BUILD_SIGNATURE: ${{ vars.SIGNATURE }}
+              run: |
+                  envsubst '$REPO $COMMIT_MSG $PREVIOUS_TAG $CURRENT_TAG $DIFF_URL $CUSTOM_INTRO_VAR $VERSION_CONTENT $BUILD_SIGNATURE' < .github/release_template.md > release_notes.md
+
+            - name: Release
+              uses: softprops/action-gh-release@v2
+              if: github.ref_type == 'tag'
+              with:
+                  body_path: release_notes.md
