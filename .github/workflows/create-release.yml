@@ -84,7 +84,7 @@ jobs:
                   envsubst '$REPO $COMMIT_MSG $PREVIOUS_TAG $CURRENT_TAG $DIFF_URL $CUSTOM_INTRO_VAR $VERSION_CONTENT $BUILD_SIGNATURE' < .github/release_template.md > release_notes.md
 
             - name: Release
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               if: github.ref_type == 'tag'
               with:
                   body_path: release_notes.md
