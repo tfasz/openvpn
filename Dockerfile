@@ -1,6 +1,9 @@
 # Original credit: https://github.com/jpetazzo/dockvpn
 FROM alpine:latest AS base
-LABEL maintainer="tfasz"
+LABEL org.opencontainers.image.source="https://github.com/tfasz/openvpn"\
+      org.opencontainers.image.title="OpenVPN Docker Container" \
+      org.opencontainers.image.description="An OpenVPN server in a Docker container with regular updates and secure defaults." \
+      org.opencontainers.image.licenses="MIT"
 
 # Setup /opt/ovpn folder for all of our config scripts. We will later symlink shortcuts to this location.
 ADD ./requirements.txt /opt/
