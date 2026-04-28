@@ -138,6 +138,6 @@ as versions change. We also merge this version info into the release notes when 
 Releases are tagged with the current year, month, and an incrementing release number.
 
 1. Tag release on `main` branch: `git tag <YYYY-MM-NUM> && git push --tags`
-2. This will trigger a release to be generated which will then trigger images to build to be created.
 
-This will build and publish a Docker container tagged with that version: `docker pull ghcr.io/tfasz/openvpn:<TAG>`
+This will build and publish the latest Docker container tagged with that version and release it.
+Image will be tagged as: `docker pull ghcr.io/tfasz/openvpn:<TAG>`
