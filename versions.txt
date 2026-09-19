@@ -1,7 +1,7 @@
 ********** OS Release *********
 NAME="Alpine Linux"
 ID=alpine
-VERSION_ID=3.24.1
+VERSION_ID=3.24.2
 PRETTY_NAME="Alpine Linux v3.24"
 HOME_URL="https://alpinelinux.org/"
 BUG_REPORT_URL="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
@@ -9,12 +9,12 @@ BUG_REPORT_URL="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
 EasyRSA Version Information
 Version:     ~VER~
 Generated:   ~DATE~
-SSL Lib:     OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)
+SSL Lib:     OpenSSL 3.5.8 25 Aug 2026 (Library: OpenSSL 3.5.8 25 Aug 2026)
 Git Commit:  ~GITHEAD~
 Source Repo: https://github.com/OpenVPN/easy-rsa
 ******* OpenVPN Version *******
-OpenVPN 2.7.5 x86_64-alpine-linux-musl [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]
-library versions: OpenSSL 3.5.7 9 Jun 2026, LZO 2.10
+OpenVPN 2.7.7 x86_64-alpine-linux-musl [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]
+library versions: OpenSSL 3.5.8 25 Aug 2026, LZO 2.10
 DCO version: N/A
 Originally developed by James Yonan
 Copyright (C) 2002-2026 OpenVPN Inc <sales@openvpn.net>
