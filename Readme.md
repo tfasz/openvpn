@@ -45,45 +45,45 @@ Feel free to suggest corrections, improvements, etc.
 
 # Getting Started
 
-This guide will show you how to use docker-compose to configure and run your OpenVPN container.
+This guide will show you how to use Docker Compose to configure and run your OpenVPN container.
 
 ## Configure and Start OpenVPN Server Container
-1. Ensure you have Docker and docker-compose installed and working.
+1. Ensure you have Docker and Docker Compose installed and working.
 2. Create a directory to manage your VPN server config.
 3. Copy the `docker-compose.yml` file from this project your directory.
 4. Generate your OpenVPN server.conf configuration by running (see examples below):
 
-       docker-compose run --rm openvpn ovpn_genconfig ...
+       docker compose run --rm openvpn ovpn_genconfig ...
 
 5. Initalize your PKI to create your CA and server keys:
 
-       docker-compose run --rm openvpn ovpn_initpki
+       docker compose run --rm openvpn ovpn_initpki
 
-6. Start your openvpn container with `docker-compose up -d` and review startup logs with `docker logs -f openvpn`.
+6. Start your openvpn container with `docker compose up -d` and review startup logs with `docker logs -f openvpn`.
 
 ### Server Configuration Options
 
 You can view server configuration options by running:
 
-    docker-compose run --rm openvpn ovpn_genconfig --help
+    docker compose run --rm openvpn ovpn_genconfig --help
 
 #### Examples
 
 * listen on UDP port 1194 for the host `vpn.example.com` with DNS 8.8.8.8:
 
-      docker-compose run --rm openvpn ovpn_genconfig -d 8.8.8.8 vpn.example.com
+      docker compose run --rm openvpn ovpn_genconfig -d 8.8.8.8 vpn.example.com
 
 * listen on TCP port 1194 for the host `vpn.example.com` with DNS 8.8.8.8 and 8.8.4.4:
 
-      docker-compose run --rm openvpn ovpn_genconfig -t -d 8.8.8.8 -d 8.8.4.4 vpn.example.com
+      docker compose run --rm openvpn ovpn_genconfig -t -d 8.8.8.8 -d 8.8.4.4 vpn.example.com
 
 * listen on TCP port 443 for the host `vpn.example.com` with DNS 192.168.0.2:
 
-      docker-compose run --rm openvpn ovpn_genconfig -t -p 443 -d 192.168.0.2 vpn.example.com
+      docker compose run --rm openvpn ovpn_genconfig -t -p 443 -d 192.168.0.2 vpn.example.com
 
 * add notification to a Slack webhook for logging client connect/disconnect events (see below for more details)
 
-      docker-compose run --rm openvpn ovpn_genconfig ... -s https://hooks.slack.com/...
+      docker compose run --rm openvpn ovpn_genconfig ... -s https://hooks.slack.com/...
 
 ## Generate Client Config
 
@@ -91,7 +91,7 @@ Once your server is configured you can generate one or more client configuration
 
 1. Create your client and save the client configuration with:
 
-       docker-compose run --rm openvpn ovpn_getclient [CLIENT-NAME] > client.ovpn
+       docker compose run --rm openvpn ovpn_getclient [CLIENT-NAME] > client.ovpn
 
 This will create the client certificate if it does not yet exist and then output the config file
 which can be used by the client to setup the VPN config. If the client already exists it will just
@@ -101,7 +101,7 @@ output the config file.
 
 You can revoke a client certificate by running:
 
-      docker-compose run --rm openvpn ovpn_revokeclient [CLIENT-NAME]
+      docker compose run --rm openvpn ovpn_revokeclient [CLIENT-NAME]
 
 ## Slack Notifications
 
