@@ -53,7 +53,7 @@ route 192.168.254.0 255.255.255.0
 {% for dns_server in dns_servers -%}
 push "dhcp-option DNS {{ dns_server }}"
 {% endfor -%}
-{% if proto == "tcp" -%}
+{% if proto == "tcp4" -%}
 push "socket-flags TCP_NODELAY"     # Optimize client for TCP
 {% endif -%}
 push "redirect-gateway def1"
