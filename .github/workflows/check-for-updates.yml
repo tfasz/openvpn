@@ -1,0 +1,51 @@
+name: Check for Updates
+
+on:
+    workflow_dispatch: # allow triggering the workflow manually
+    schedule:
+        - cron: '0 0 * * 0' # run job every Sunday at midnight UTC
+
+jobs:
+    check-for-updates:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: Run check-for-updates script
+              run: ./check-for-updates.sh
+
+            - name: Check for changes in versions.txt
+              id: diff
+              run: |
+                  if git diff --quiet versions.txt; then
+                      echo "changed=false" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "changed=true" >> "$GITHUB_OUTPUT"
+                      {
+                          echo "diff<<EOF"
+                          git diff versions.txt
+                          echo "EOF"
+                      } >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Create Pull Request
+              if: steps.diff.outputs.changed == 'true'
+              uses: peter-evans/create-pull-request@v7
+              with:
+                  add-paths: versions.txt
+                  commit-message: Update versions.txt with latest package versions
+                  branch: update-versions
+                  delete-branch: true
+                  title: Update versions.txt with latest package versions
+                  assignees: ${{ github.repository_owner }}
+                  body: |
+                      @${{ github.repository_owner }} Automated weekly check detected updates in `versions.txt`:
+
+                      ```diff
+                      ${{ steps.diff.outputs.diff }}
+                      ```
