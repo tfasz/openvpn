@@ -8,8 +8,10 @@ on:
 jobs:
     ghcr-stats:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
 
             # generate the stats file.
             - uses: actionstore/ghcr-stats@v1
