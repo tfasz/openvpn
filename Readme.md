@@ -38,7 +38,7 @@ General security improvements include:
 * require a minimum of TLS version 1.2
 * use tls-crypt to authenticate tcp control channel packets
 * authenticate packets with `SHA256`
-* use modern `AES-128-GCM` cipher for data channel
+* use modern AEAD ciphers (`AES-128-GCM`, `AES-256-GCM`, `CHACHA20-POLY1305`) for data channel
 * verify server x509 certificate name matches VPN common name
 
 Feel free to suggest corrections, improvements, etc.
