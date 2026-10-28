@@ -16,6 +16,7 @@ def test_get_client_config(pki_config):
     assert data["proto"] == config["proto"]
     assert data["dns_servers"] == config["dns_servers"]
     assert data["slack_notify_url"] == config["slack_notify_url"]
+    assert data["mtu"] == config["mtu"]
 
 def test_get_client_no_pki(pki_config):
     client_config = ClientConfig(pki_config.vpn_dir, PKI_BIN_DIR)

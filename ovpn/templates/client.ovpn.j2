@@ -6,7 +6,7 @@ remote-cert-tls server
 remote {{ common_name }} {{ port }} {{ proto }}
 verify-x509-name {{ common_name }} name
 tls-client
-tun-mtu 1500
+tun-mtu {{ mtu }}
 verb 3
 <ca>
 {{ ca_cert | trim }}

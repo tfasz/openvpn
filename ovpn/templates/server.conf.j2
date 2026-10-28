@@ -8,7 +8,7 @@ crl-verify /etc/openvpn/crl.pem
 key-direction 0
 verify-client-cert require
 keepalive 10 120
-tun-mtu 1500
+tun-mtu {{ mtu }}
 persist-key
 persist-tun
 topology subnet
