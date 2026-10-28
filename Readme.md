@@ -35,7 +35,7 @@ some other projects and blog posts including:
 
 General security improvements include:
 * use ECDSA certificates with prime256v1 curve
-* require a minimum of TLS version 1.2
+* require a minimum of TLS version 1.3
 * use tls-crypt to authenticate tcp control channel packets
 * authenticate packets with `SHA256`
 * use modern AEAD ciphers (`AES-128-GCM`, `AES-256-GCM`, `CHACHA20-POLY1305`) for data channel
