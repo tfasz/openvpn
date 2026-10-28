@@ -46,6 +46,8 @@ jobs:
             type=ref,event=branch
             type=sha
 
+      # Note: We intentionally build and push the container image on pull_request
+      # events (not just pushes to main) so PR builds can be pulled and tested directly.
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
         with:
