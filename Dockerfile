@@ -6,13 +6,13 @@ LABEL org.opencontainers.image.source="https://github.com/tfasz/openvpn"\
       org.opencontainers.image.licenses="MIT"
 
 # Setup /opt/ovpn folder for all of our config scripts. We will later symlink shortcuts to this location.
-ADD ./requirements.txt /opt/
-RUN apk add --update openvpn iptables bash easy-rsa python3 && \
-    rm /usr/lib/python3.14/EXTERNALLY-MANAGED && \
-    python3 -m ensurepip && pip3 install --no-cache --upgrade pip setuptools && \
-    pip3 install -r /opt/requirements.txt && \
+COPY ./requirements.txt /opt/
+RUN apk add --no-cache openvpn iptables bash easy-rsa python3 && \
+    rm -f /usr/lib/python3.*/EXTERNALLY-MANAGED && \
+    python3 -m ensurepip && pip3 install --no-cache-dir --upgrade pip setuptools && \
+    pip3 install --no-cache-dir -r /opt/requirements.txt && \
     ln -s /usr/share/easy-rsa/easyrsa /usr/local/bin && \
-    rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/*
+    rm -rf /tmp/* /var/tmp/*
 
 # Set our ENV vars, working directory, exposed port, and scripts
 ENV OPENVPN=/etc/openvpn
@@ -28,17 +28,17 @@ EXPOSE 1194/udp
 FROM base AS test-base
 
 # Install requirements first so we don't need to do this everytime our scripts/tests change.
-ADD ./requirements-test.txt /opt/
-RUN pip3 install -r /opt/requirements-test.txt
+COPY ./requirements-test.txt /opt/
+RUN pip3 install --no-cache-dir -r /opt/requirements-test.txt
 # Copy whole directory and run tests + lint
-ADD . /opt/ovpn-test
+COPY . /opt/ovpn-test
 FROM test-base AS test
 RUN cd /opt/ovpn-test && pytest -vv --cov=ovpn/ --cov-fail-under=97 --cov-report term-missing && \
     pylint ovpn/*.py tests/*.py
 
 # If we pass our tests and lint create a container without the tests/lint libs + code.
 FROM base AS default
-ADD ./ovpn /opt/ovpn
+COPY ./ovpn /opt/ovpn
 RUN ln -s /opt/ovpn/ovpn_genconfig.py /usr/local/bin/ovpn_genconfig && \
     ln -s /opt/ovpn/ovpn_initpki.py /usr/local/bin/ovpn_initpki && \
     ln -s /opt/ovpn/ovpn_getclient.py /usr/local/bin/ovpn_getclient && \
