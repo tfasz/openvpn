@@ -4,7 +4,7 @@ from ovpn_util import render_template, save_config, write_file
 
 class ServerConfig:
     """Track server config values and generate config file"""
-    def __init__(self, vpn_dir, name, port, tcp, dns_servers, slack_notify_url=None):
+    def __init__(self, vpn_dir, name, port, tcp, dns_servers, slack_notify_url=None, mtu=1500):
         self.vpn_dir = vpn_dir
         self.data = {}
         self.data['common_name'] = name
@@ -12,6 +12,7 @@ class ServerConfig:
         self.data['proto'] = "tcp4" if tcp else "udp4"
         self.data['dns_servers'] = dns_servers
         self.data['slack_notify_url'] = slack_notify_url
+        self.data['mtu'] = mtu
 
     def render(self):
         """Get the server config as a string"""

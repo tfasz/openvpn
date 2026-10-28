@@ -5,5 +5,6 @@
   "dns_servers": [
     "1.1.1.1"
   ],
-  "slack_notify_url": null
+  "slack_notify_url": null,
+  "mtu": 1500
 }

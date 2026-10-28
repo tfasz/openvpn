@@ -11,9 +11,10 @@ from server_config import ServerConfig
 @click.option("-d", "--dns", multiple=True, help="Add dns server to the list", metavar="<IP>")
 @click.option("-D", "--vpndir", envvar='OPENVPN', help="OpenVPN config directory", metavar="<DIR>")
 @click.option("-s", "--slack-notify", help="Slack webhook URL to notify on connect/disconnect events", metavar="<URL>")
-def gen_server(vpndir, name, port, tcp, dns, slack_notify):
+@click.option("-m", "--mtu", type=int, default=1500, help="MTU size for VPN tunnel", metavar="<MTU>")
+def gen_server(vpndir, name, port, tcp, dns, slack_notify, mtu):
     """Generate VPN server config for NAME"""
-    server_config = ServerConfig(vpndir, name, port, tcp, dns, slack_notify)
+    server_config = ServerConfig(vpndir, name, port, tcp, dns, slack_notify, mtu)
     server_config.save()
 
 if __name__ == '__main__':
